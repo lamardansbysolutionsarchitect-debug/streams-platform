@@ -167,54 +167,13 @@ class Loader extends OriginalLoader
      */
     public function findTemplate($name)
     {
-        if ($this->files->exists($name)) {
-            return $name;
-        }
+        $overload = $this->getOverloadPath($name);
 
-        $name = $this->normalizeName($name);
+        $name = $overload ?: $name;
 
-        if (isset($this->cache[$name])) {
-            return $this->cache[$name];
-        }
-
-        try {
-            $this->cache[$name] = $this->finder->find($name);
-        } catch (InvalidArgumentException $ex) {
-            throw new LoaderError($ex->getMessage());
-        }
-
-        return $this->cache[$name];
+        return parent::findTemplate($name);
     }
 
-    /**
-     * Normalize the Twig template name to a name the ViewFinder can use
-     *
-     * @param  string $name Template file name.
-     * @return string The parsed name
-     */
-    protected function normalizeName($name)
-    {
-        if ($this->files->extension($name) === $this->extension) {
-            $name = substr($name, 0, - (strlen($this->extension) + 1));
-        }
-
-        return $name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function exists($name)
-    {
-        try {
-            $this->findTemplate($name);
-        } catch (LoaderError $exception) {
-            return false;
-        }
-
-        return true;
-    }
-    
     /**
      * Gets the overload path.
      *

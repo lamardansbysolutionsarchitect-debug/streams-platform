@@ -25,6 +25,11 @@ class PoweredBy
         /* @var \Illuminate\Http\Response $response */
         $response = $next($request);
 
+        $response->headers->set(
+            'X-Streams-Distribution',
+            config('streams::distribution.name') . '-' . config('streams::distribution.version')
+        );
+
         return $response;
     }
 }

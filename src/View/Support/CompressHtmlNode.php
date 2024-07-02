@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View\Support;
 
-use Twig\Compiler;
-use Twig\Node\Node;
+use Twig_Node;
 
 /**
  * Class CompressHtmlNode
@@ -15,7 +14,7 @@ use Twig\Node\Node;
  * @author Ryan Thompson <ryan@pyrocms.com>
  * @author PyroCMS, Inc. <support@pyrocms.com>
  */
-class CompressHtmlNode extends Node
+class CompressHtmlNode extends Twig_Node
 {
 
     /**
@@ -34,9 +33,9 @@ class CompressHtmlNode extends Node
     /**
      * Compile the node.
      *
-     * @param Compiler $compiler
+     * @param \Twig_Compiler $compiler
      */
-    public function compile(Compiler $compiler)
+    public function compile(\Twig_Compiler $compiler)
     {
         $compiler
             ->addDebugInfo($this)

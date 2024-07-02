@@ -1,18 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\View\Twig;
 
-use Twig\Extension\AbstractExtension;
-use Twig\Extension\GlobalsInterface;
-
 /**
- * Add 'app' and all global variables shared through View::share
+ * This file is part of the TwigBridge package.
+ *
+ * @copyright Robert Crowe <hello@vivalacrowe.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
-class Globals extends AbstractExtension implements GlobalsInterface
-{
 
-    public function getGlobals(): array
+if (version_compare(\Twig_Environment::VERSION, '1.23.0') === -1) {
+    interface Globals
     {
-        $globals = app('view')->getShared();
-        $globals['app'] = app();
-        return $globals;
+
+    }
+} else {
+    interface Globals extends \Twig_Extension_GlobalsInterface
+    {
+
     }
 }
