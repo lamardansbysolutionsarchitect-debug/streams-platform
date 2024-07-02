@@ -1,4 +1,4 @@
-<?php
+<?php namespace Anomaly\Streams\Platform\View\Twig;
 
 /**
  * This file is part of the TwigBridge package.
@@ -9,13 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Anomaly\Streams\Platform\View\Twig;
-
-use Exception;
 use Illuminate\View\Compilers\CompilerInterface;
+use Twig_Environment;
+use Twig_Error_Loader;
+use Exception;
 use InvalidArgumentException;
-use Twig\Environment;
-use Twig\TemplateWrapper;
 
 /**
  * Compiles Twig templates.
@@ -23,16 +21,16 @@ use Twig\TemplateWrapper;
 class Compiler implements CompilerInterface
 {
     /**
-     * @var Environment
+     * @var \Twig_Environment
      */
     protected $twig;
 
     /**
      * Create a new instance of the Twig compiler.
      *
-     * @param Environment $twig
+     * @param \Twig_Environment $twig
      */
-    public function __construct(Environment $twig)
+    public function __construct(Twig_Environment $twig)
     {
         $this->twig = $twig;
     }
@@ -40,7 +38,7 @@ class Compiler implements CompilerInterface
     /**
      * Returns the instance of Twig used to render the template.
      *
-     * @return Environment
+     * @return \Twig_Environment
      */
     public function getTwig()
     {
@@ -85,25 +83,23 @@ class Compiler implements CompilerInterface
     /**
      * Compile the view at the given path.
      *
-     * @param string $path
-     *
-     * @return TemplateWrapper
-     * @throws \InvalidArgumentException
-     *
+     * @param $path
+     * @return \Twig_Template
      */
     public function load($path)
     {
         // Load template
         try {
-            $tmplWrapper = $this->twig->load($path);
-        } catch (Exception $e) {
+            $template = $this->twig->loadTemplate($path);
+        } catch (Twig_Error_Loader $e) {
             throw new InvalidArgumentException("Error loading $path: ". $e->getMessage(), $e->getCode(), $e);
         }
-        if ($tmplWrapper instanceof Template) {
+
+        if ($template instanceof Template) {
             // Events are already fired by the View Environment
             $template->setFiredEvents(true);
         }
 
-        return $tmplWrapper;
+        return $template;
     }
 }

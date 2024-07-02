@@ -10,7 +10,6 @@ use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Twig\Lexer;
 
 /**
  * Class Asset
@@ -548,11 +547,11 @@ class Asset
         if (Str::contains($collection, public_path())) {
             return;
         }
-
+        
         $hint = $this->paths->hint($collection);
 
         $filters = $this->collectionFilters($collection, $additionalFilters); // Returns combined filter flags
-
+        
         /**
          * Get the concatenated content
          * of the asset collection.
@@ -566,11 +565,11 @@ class Asset
             $twig = resolve('twig');
 
             $twig->setLexer(
-                new Lexer($twig, [
+                new \Twig_Lexer($twig, [
                     'tag_comment' => ['{^', '^}']
                 ])
             );
-
+            
             try {
                 $contents = (string) render($contents);
             } catch (\Exception $e) {
@@ -583,7 +582,7 @@ class Asset
             }
 
             $twig->setLexer(
-                new Lexer($twig, [
+                new \Twig_Lexer($twig, [
                     'tag_comment' => ['{#', '#}']
                 ])
             );

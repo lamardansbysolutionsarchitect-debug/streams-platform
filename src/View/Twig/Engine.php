@@ -10,14 +10,9 @@
  */
 
 use Illuminate\View\Engines\CompilerEngine;
-use Twig\Error\Error;
-use Twig\Error\LoaderError;
+use Twig_Error;
+use Twig_Error_Loader;
 use ErrorException;
-
-
-use Twig\Loader\LoaderInterface;
-//use TwigBridge\Twig\Loader;
-use Anomaly\Streams\Platform\View\Twig\OriginalLoader;
 
 /**
  * View engine for Twig files.
@@ -34,18 +29,18 @@ class Engine extends CompilerEngine
     /**
      * Used to find the file that has failed.
      *
-     * @var \TwigBridge\Twig\Loader
+     * @var Loader
      */
     protected $loader = [];
 
     /**
      * Create a new Twig view engine instance.
      *
-     * @param \TwigBridge\Engine\Compiler        $compiler
-     * @param \TwigBridge\Twig\Loader            $loader
+     * @param Compiler        $compiler
+     * @param Loader            $loader
      * @param array                              $globalData
      */
-    public function __construct(Compiler $compiler, OriginalLoader $loader, array $globalData = [])
+    public function __construct(Compiler $compiler, Loader $loader, array $globalData = [])
     {
         parent::__construct($compiler);
 
@@ -81,7 +76,7 @@ class Engine extends CompilerEngine
      * @param string $path Full file path to Twig template.
      * @param array  $data
      *
-     * @throws Error|\ErrorException When unable to load the requested path.
+     * @throws \Twig_Error|\ErrorException When unable to load the requested path.
      *
      * @return string
      */
@@ -91,7 +86,7 @@ class Engine extends CompilerEngine
 
         try {
             $content = $this->compiler->load($path)->render($data);
-        } catch (Error $ex) {
+        } catch (Twig_Error $ex) {
             $this->handleTwigError($ex);
         }
 
@@ -101,11 +96,11 @@ class Engine extends CompilerEngine
     /**
      * Handle a TwigError exception.
      *
-     * @param Error $ex
+     * @param \Twig_Error $ex
      *
-     * @throws Error|\ErrorException
+     * @throws \Twig_Error|\ErrorException
      */
-    protected function handleTwigError(Error $ex)
+    protected function handleTwigError(Twig_Error $ex)
     {
         $context = $ex->getSourceContext();
 
@@ -121,11 +116,8 @@ class Engine extends CompilerEngine
         } elseif ($templateFile) {
             // Attempt to locate full path to file
             try {
-                if ($this->loader instanceof Loader) {
-                    //Outside of unit test, we should be able to load the file
-                    $file = $this->loader->findTemplate($templateFile);
-                }
-            } catch (LoaderError $exception) {
+                $file = $this->loader->findTemplate($templateFile);
+            } catch (Twig_Error_Loader $exception) {
                 // Unable to load template
             }
         }
