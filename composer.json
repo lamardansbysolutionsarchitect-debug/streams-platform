@@ -1,44 +1,45 @@
 {
-    "name": "anomaly/streams-platform",
-    "description": "A powerful, inclusive, modular PHP application engine built lovingly for Laravel.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Ryan Thompson",
-            "email": "ryan@pyrocms.com",
-            "role": "Owner"
-        },
-        {
-            "name": "Vedat Akdogan",
-            "email": "vedatakdogan@live.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": "^7.4|^8.0",
-        "laravel/framework": "^8.83",
-        "laravel/helpers": "^1.6",
-        "laravel/scout": "^9.6",
-        "doctrine/dbal": "^3.6"
+  "name": "anomaly/streams-platform",
+  "description": "A powerful, inclusive, modular PHP application engine built lovingly for Laravel.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ryan Thompson",
+      "email": "ryan@pyrocms.com",
+      "role": "Owner"
     },
-    "autoload": {
-        "psr-4": {
-            "Anomaly\\Streams\\Platform\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Anomaly\\Streams\\Platform\\Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Anomaly\\Streams\\Platform\\StreamsServiceProvider"
-            ]
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    {
+      "name": "Vedat Akdogan",
+      "email": "vedatakdogan@live.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.4|^8.0",
+    "laravel/framework": "^8.83",
+    "laravel/helpers": "^1.6",
+    "laravel/scout": "^9.6",
+    "doctrine/dbal": "^3.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Anomaly\\Streams\\Platform\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Anomaly\\Streams\\Platform\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Anomaly\\Streams\\Platform\\StreamsServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "version": "1.8.99"
 }
